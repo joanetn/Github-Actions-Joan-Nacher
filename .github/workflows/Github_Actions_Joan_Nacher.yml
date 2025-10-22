@@ -20,3 +20,23 @@ jobs:
 
       - name : Executar linter
         run: npm run lint
+
+  Cypress_job:
+    needs: Linter_job
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
+
+      - name: Tests de Cypress
+        id: cypress
+        continue-on-error: true
+        run: npm ci
+        run: npx cypress run > result.txt
+      
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: resultat
+          path: result.txt
