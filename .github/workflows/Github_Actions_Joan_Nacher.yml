@@ -29,6 +29,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5.0.0
 
+      - name: Iniciar servidor Next.js en background
+        run: |
+          npm run dev &
+          sleep 5
+
       - name: Tests de Cypress
         id: cypress
         continue-on-error: true
