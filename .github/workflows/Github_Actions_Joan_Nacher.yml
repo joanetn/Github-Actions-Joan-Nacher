@@ -46,34 +46,34 @@ jobs:
           name: resultat
           path: result.txt
 
-    Add_badge_job:
-      needs: Cypress_job
-      runs-on: ubuntu-latest
+  Add_badge_job:
+    needs: Cypress_job
+    runs-on: ubuntu-latest
 
-      steps:
-        - name: Checkout
-          uses: actions/checkout@v5.0.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5.0.0
 
-        - name: Download a Build Artifact
-          uses: actions/download-artifact@v5.0.0
-          with:
-            name: resultat
-            path: result.txt
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v5.0.0
+        with:
+          name: resultat
+          path: result.txt
 
-        - name: Generar output amb el resultat
-          id: generate_output
-          run: |
-            echo "::set-output name=cypress_outcome::$(cat result.txt)"
+      - name: Generar output amb el resultat
+        id: generate_output
+        run: |
+          echo "::set-output name=cypress_outcome::$(cat result.txt)"
 
-        - name: Executar action 
-          uses: ./github/actions/add-badge
-          with: 
-            cypress_outcome: ${{ steps.generate_output.outputs.cypress_outcome }}
-        
-        - name: Publicar canvis
-          run: |
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add README.md 
-            git commit -m "Update del README"
-            git push
+      - name: Executar action 
+        uses: ./github/actions/add-badge
+        with: 
+          cypress_outcome: ${{ steps.generate_output.outputs.cypress_outcome }}
+      
+      - name: Publicar canvis
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md 
+          git commit -m "Update del README"
+          git push
