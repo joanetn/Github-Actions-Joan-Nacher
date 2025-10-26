@@ -69,6 +69,7 @@ Al executar-lo en el `result.txt` se me guarda el resultat dels tests, el qual �
 
 El tercer *job* és el **Add_badge_job**, que recupera el resultat dels tests i afegeix un *badge* al final del `README` sota el text  
 “**RESULTAT DELS ÚLTIMS TESTS**”, indicant si els tests han passat (*success*) o han fallat (*failure*).
+![Cypress Tests](https://img.shields.io/badge/test-failure-red)
 
 ![Captura de pantalla del projecte](captures/15.png)
 
