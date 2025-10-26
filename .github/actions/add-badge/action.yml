@@ -1,25 +1,36 @@
-name: "Afegir badge al README"
+name: Afegir badge al README
 description: "Afig un badge al README segons el resultat dels tests de Cypress"
+
 inputs:
   cypress_outcome:
     description: "Resultat dels tests de Cypress (success o failure)"
     required: true
+    default: "failure"
+
 runs:
   using: "composite"
   steps:
     - name: Afegir badge al README
       shell: bash
       run: |
-        RESULTAT="${{ inputs.cypress_outcome }}"
-        echo "Resultat dels tests: $RESULTAT"
+        echo "Resultat dels tests: ${{ inputs.cypress_outcome }}"
 
-        if echo "$RESULTAT" | grep -qi "failure"; then
-          BADGE="![Tests Failed](https://img.shields.io/badge/test-failure-red)"
+        if [ "${{ inputs.cypress_outcome }}" = "success" ]; then
+          BADGE_URL="https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg"
         else
-          BADGE="![Tests Passed](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)"
+          BADGE_URL="https://img.shields.io/badge/test-failure-red"
         fi
 
-        sed -i '/RESULTAT DELS ÚLTIMS TESTS/,$d' README.md
-        echo -e "RESULTAT DELS ÚLTIMS TESTS\n\n$BADGE" >> README.md
-
-        echo "Badge afegit al README correctament."
+        if ! grep -q "RESULTAT DELS ÚLTIMS TESTS" README.md; then
+          echo -e "\n## RESULTAT DELS ÚLTIMS TESTS\n" >> README.md
+          echo "![Cypress Tests]($BADGE_URL)" >> README.md
+          echo "S'ha afegit nova secció de resultat al README."
+        else
+          if grep -A1 "RESULTAT DELS ÚLTIMS TESTS" README.md | grep -q "https://img.shields.io"; then
+            sed -i "/RESULTAT DELS ÚLTIMS TESTS/{n; s|https://img.shields.io[^)]*|$BADGE_URL|;}" README.md
+            echo "Badge actualitzat correctament."
+          else
+            sed -i "/RESULTAT DELS ÚLTIMS TESTS/a ![Cypress Tests]($BADGE_URL)" README.md
+            echo "Badge afegit a la secció existent."
+          fi
+        fi
