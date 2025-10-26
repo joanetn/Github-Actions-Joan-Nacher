@@ -6,4 +6,4 @@ Example of nextjs project using Cypress.io
 <!---End place for the badge -->
 RESULTAT DELS ÚLTIMS TESTS
 
-![Tests Passed](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)
+![Tests Failed](https://img.shields.io/badge/test-failure-red)
