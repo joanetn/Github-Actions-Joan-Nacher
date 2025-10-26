@@ -1,0 +1,26 @@
+name: "Enviar correu"
+description: "Envia un correu amb els resultats dels jobs del workflow"
+inputs:
+  correu:
+    description: "Adreça de correu del destinatari"
+    required: true
+  workflow:
+    description: "Nom del workflow"
+    required: true
+  linter_job:
+    description: "Resultat del Linter_job"
+    required: true
+  cypress_job:
+    description: "Resultat del Cypress_job"
+    required: true
+  add_badge_job:
+    description: "Resultat del Add_badge_job"
+    required: true
+  deploy_job:
+    description: "Resultat del Deploy_job"
+    required: true
+
+runs:
+  using: "node16"
+  main: "index.js"
+  
