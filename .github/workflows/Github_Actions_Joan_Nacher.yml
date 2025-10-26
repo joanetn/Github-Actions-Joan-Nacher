@@ -66,7 +66,7 @@ jobs:
           echo "::set-output name=cypress_outcome::$(cat result.txt)"
 
       - name: Executar action 
-        uses: ./github/actions/add-badge
+        uses: .github/actions/add-badge
         with: 
           cypress_outcome: ${{ steps.generate_output.outputs.cypress_outcome }}
       
