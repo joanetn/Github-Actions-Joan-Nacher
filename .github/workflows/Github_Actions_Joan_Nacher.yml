@@ -105,13 +105,11 @@ jobs:
         uses: actions/checkout@v5.0.0
 
       - name: Executar action correu
-        uses: ./.github/actions/enviar-correu 
-        with: 
-          correu: ${{ secrets.CORREU_JOAN }}
-          workflow: ${{ github.workflow }}
-          linter_job: ${{ needs.Linter_job.result }}
-          cypress_job: ${{ needs.Cypress_job.result }}
-          add_badge_job: ${{ needs.Add_badge_job.result }}
-          deploy_job: ${{ needs.Deploy_job.result }}
-        env: 
+        run: |
+          cd ./.github/actions/enviar-correu
+          npm ci
+          node index.js "${{ secrets.CORREU_JOAN }}" "${{ github.workflow }}" \
+            "${{ needs.Linter_job.result }}" "${{ needs.Cypress_job.result }}" \
+            "${{ needs.Add_badge_job.result }}" "${{ needs.Deploy_job.result }}"
+        env:
           CORREU_PASS: ${{ secrets.CORREU_PASS }}
