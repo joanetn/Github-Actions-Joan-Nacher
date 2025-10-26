@@ -10,7 +10,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "@actions/core": "^1.11.1",
     "nodemailer": "^7.0.10"
   }
 }

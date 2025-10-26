@@ -1,14 +1,13 @@
-const core = require('@actions/core');
 const nodemailer = require('nodemailer');
 
 async function run() {
     try {
-        const correu = core.getInput('correu');
-        const workflow = core.getInput('workflow');
-        const linter = core.getInput('linter_job');
-        const cypress = core.getInput('cypress_job');
-        const badge = core.getInput('add_badge_job');
-        const deploy = core.getInput('deploy_job');
+        const correu = process.argv[2];
+        const workflow = process.argv[3];
+        const linter = process.argv[4];
+        const cypress = process.argv[5];
+        const badge = process.argv[6];
+        const deploy = process.argv[7];
 
         const messageBody = `
             S'ha realitzat un push en la branca main que ha provocat l'execució del workflow ${workflow} amb els següents resultats:
@@ -35,7 +34,7 @@ async function run() {
         });
         console.log('Correu enviat correctament!');
     } catch (error) {
-        core.setFailed(`Error enviant el correu: ${error.message}`);
+        process.exit(1);
     }
 }
 
