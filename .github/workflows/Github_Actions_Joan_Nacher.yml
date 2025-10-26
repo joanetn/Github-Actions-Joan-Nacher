@@ -105,7 +105,7 @@ jobs:
         uses: actions/checkout@v5.0.0
 
       - name: Executar action correu
-        uses: ./.github/actions/enviar-correu 
+        run: ./.github/actions/enviar-correu 
         with: 
           correu: ${{ secrets.CORREU_JOAN }}
           workflow: ${{ github.workflow }}
