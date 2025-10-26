@@ -61,7 +61,6 @@ jobs:
         uses: actions/download-artifact@v5.0.0
         with:
           name: resultat
-          path: result.txt
 
       - name: Generar output amb el resultat
         id: generate_output
