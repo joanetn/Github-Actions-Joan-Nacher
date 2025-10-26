@@ -62,4 +62,18 @@ jobs:
 
         - name: Generar output amb el resultat
           id: generate_output
-          run: cat result.txt
+          run: |
+            echo "::set-output name=cypress_outcome::$(cat result.txt)"
+
+        - name: Executar action 
+          uses: ./github/actions/add-badge
+          with: 
+            cypress_outcome: ${{ steps.generate_output.outputs.cypress_outcome }}
+        
+        - name: Publicar canvis
+          run: |
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add README.md 
+            git commit -m "Update del README"
+            git push

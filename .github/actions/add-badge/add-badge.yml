@@ -1,0 +1,25 @@
+name: "Afegir badge al README"
+description: "Afig un badge al README segons el resultat dels tests de Cypress"
+inputs:
+  cypress_outcome:
+    description: "Resultat dels tests de Cypress (success o failure)"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Afegir badge al README
+      shell: bash
+      run: |
+        RESULTAT="${{ inputs.cypress_outcome }}"
+        echo "Resultat dels tests: $RESULTAT"
+
+        if echo "$RESULTAT" | grep -qi "failure"; then
+          BADGE="![Tests Failed](https://img.shields.io/badge/test-failure-red)"
+        else
+          BADGE="![Tests Passed](https://img.shields.io/badge/tested%20with-Cypress-04C38E.svg)"
+        fi
+
+        sed -i '/RESULTAT DELS ÚLTIMS TESTS/,$d' README.md
+        echo -e "RESULTAT DELS ÚLTIMS TESTS\n\n$BADGE" >> README.md
+
+        echo "Badge afegit al README correctament."
